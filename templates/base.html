@@ -1,0 +1,36 @@
+{% extends "bootstrap/base.html" %}
+
+<html>
+	
+	<head>
+		<title>Casino</title>
+	</head>
+
+	{% block body %}
+	<body>	
+		
+		{% block navbar %}
+		<nav class="navbar navbar-default">
+	  		<div class="container-fluid">
+		    <div class="navbar-header">
+		    	<a class="navbar-brand" href="/">Casino</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a href="/">Home</a></li>
+		    </ul>
+		  </div>
+		</nav>
+		{% endblock %}
+
+		{% block content %}
+		  <h1>No Content</h1>
+		{% endblock %}
+
+		<br><br><br>
+		<footer>
+			<p align="center">Created by Brad Kovacovich and Austin Utez</p>
+		</footer>
+
+	</body>
+	{% endblock %}
+</html>

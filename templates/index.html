@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 align="center">Casino</h1>
+
+<div class="container" padding="10px">
+
+	<form method="GET" action="/" padding="10px">
+		<label for="cont">What game would you like to play?</label>
+			<select id="cont" name="cont">
+				<option>We Have No Games Yet</option>
+			</select><br>
+
+		<button type="submit">Submit</button>
+	</form>
+
+</div>
+{% endblock %}
