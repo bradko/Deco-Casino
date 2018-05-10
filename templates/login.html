@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 align="center">Casino</h1>
+
+<div class="container" padding="10px">
+
+	{% if session['logged_in'] %}
+	<p>You're logged in already!</p>
+	{% else %}
+	<form action="/login" method="POST">
+	  <input type="username" name="username" placeholder="Username"><br>
+	  <input type="password" name="password" placeholder="Password"><br>
+	  <input type="submit" value="Log in"><br><br>
+	</form>
+
+	<form action="/createAccount">
+		<h3>Don't Have an Account?</h3>
+	  	<input type="submit" value="Create Account">
+	</form>
+
+	{% endif %}
+
+
+</div>
+{% endblock %}
