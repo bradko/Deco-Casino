@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 align="center">Casino</h1>
+
+<div class="container" padding="10px">
+
+	<h3>Create a New Account:</h3>
+
+	<form action="/addToLogin">
+	  <input type="username" name="username" placeholder="Username"><br>
+	  <input type="password" name="password" placeholder="Password"><br>
+	  <input type="submit" value="Create Account"><br><br>
+	</form>
+
+</div>
+{% endblock %}
