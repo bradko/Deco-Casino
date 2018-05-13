@@ -2,20 +2,30 @@
 
 {% block content %}
 
-<h1 align="center">Casino</h1>
+<h1 align="center">Casino</h1><br>
 
 <div class="container" padding="10px">
 
 	{% if session['logged_in'] %}
 	<p>You're logged in already!</p>
 	{% else %}
-	<form action="/login" method="POST">
+	<form action="/login" method="POST" align="center">
 	  <input type="username" name="username" placeholder="Username"><br>
 	  <input type="password" name="password" placeholder="Password"><br>
 	  <input type="submit" value="Log in"><br><br>
 	</form>
 
-	<form action="/createAccount">
+	{% with messages = get_flashed_messages() %}
+  		{% if messages %}
+    		<ul class=flashes>
+    		{% for message in messages %}
+      			<li>{{ message }}</li>
+    		{% endfor %}
+    		</ul>
+ 		{% endif %}
+	{% endwith %}
+
+	<form action="/createAccount" align="center">
 		<h3>Don't Have an Account?</h3>
 	  	<input type="submit" value="Create Account">
 	</form>
