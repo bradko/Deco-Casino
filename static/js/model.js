@@ -33,16 +33,18 @@ class Deck {
 		this._cardList = cardList
 		this._deck = []
 
-		for Card in cardList:
-			this._deck.append(Card)
+		for (let Card of cardList) {
+			this._deck.push(Card)
+		}
 
-		self.resetDeck()
+		this.resetDeck()
 	}
 
 	resetDeck() {
 		this._deck =[]
-		for Card in self._cardList:
-			this._deck.apend(Card)
+		for (let Card of this._cardList) {
+			this._deck.push(Card)
+		}
 	}
 
 	shuffle() {
@@ -59,7 +61,7 @@ class Deck {
 	}
 
 	returnCard(Card) {
-		this._deck.append(Card)
+		this._deck.push(Card)
 	}
 
 }
