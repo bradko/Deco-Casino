@@ -14,9 +14,12 @@
 
 		<button type="submit">Submit</button>
 	</form>
+	<button type="button" onclick="drawCard()"">Draw Card</button>
+	<p id='cardValue'></p>
 
 </div>
-
+<script src=static/js/model.js type=text/javascript></script>
+<script src=static/js/controller.js type=text/javascript></script>
 <script>
 	deckList = []
 	suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
@@ -24,11 +27,13 @@
 	for (let i = 0; i < suits.length; i++) {
 		for (let j = 0; j < vals.length; j++) {
 			card = new Card(suits[i], vals[j])
-			deckList.append(card)
+			deckList.push(card)
 		}
 	}
 	deck = new Deck(deckList)
+	deck.shuffle()
+	console.log("IT WORKED")
 </script>
-<script src=js/model.js type=text/javascript></script>
+
 
 {% endblock %}
