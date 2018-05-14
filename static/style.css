@@ -2,7 +2,25 @@ body {
 	background-color: #CCB69B;
 }
 
-.container {
-	border-style: solid;
-	border-radius: 5px;
+.panel {
+	border: solid black 2px;
+}
+
+form {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.navbar-brand
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin:0 auto;
+    font-size: 2em;
+}
+
+.navbar-toggle {
+    z-index:3;
 }
