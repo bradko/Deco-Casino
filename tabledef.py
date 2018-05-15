@@ -12,8 +12,11 @@ class User(Base):
     """"""
     __tablename__ = "users"
  
-    username = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    username = Column(String)
     password = Column(String)
+    credits = relationship("Credits", uselist=False, back_populates="user")
+    game = relationship("Game")
  
     #----------------------------------------------------------------------
     def __init__(self, username, password):
@@ -25,50 +28,37 @@ class Credits(Base):
     """"""
     __tablename__ = "credits"
  
-    username = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    username = Column(String)
     credits = Column(Integer)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship("User", back_populates="credits")
  
     #----------------------------------------------------------------------
-    def __init__(self, username, credits):
+    def __init__(self, username, credits, user):
         """"""
         self.username = username
         self.credits = credits
+        self.user = user
 
-class Blackjack(Base):
-    """"""
-    __tablename__ = "blackjack"
- 
-    username = Column(String, primary_key=True)
-    totalScore = Column(Integer)
-    handsWon = Column(Integer)
-    bestStreak = Column(Integer)
-    numBlackjacks = Column(Integer)
- 
-    #----------------------------------------------------------------------
-    def __init__(self, username, totalScore, handsWon, bestStreak, numBlackjacks):
-        """"""
-        self.username = username
-        self.totalScore = totalScore
-        self.handsWon = handsWon
-        self.bestStreak = bestStreak
-        self.numBlackjacks = numBlackjacks
+class Game(Base):
+    __tablename__ = "games"
 
-class HighLow(Base):
-    """"""
-    __tablename__ = "highlow"
- 
-    username = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    username = Column(String)
     totalScore = Column(Integer)
     numWins = Column(Integer)
     bestStreak = Column(Integer)
- 
-    #----------------------------------------------------------------------
-    def __init__(self, username, totalScore, handsWon, bestStreak):
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship("User")
+
+    def __init__(self, username, totalScore, numWins, bestStreak, user):
         """"""
         self.username = username
         self.totalScore = totalScore
-        self.numWins = handsWon
+        self.numWins = numWins
         self.bestStreak = bestStreak
- 
+        self.user = user
+
 # create tables
 Base.metadata.create_all(engine)
