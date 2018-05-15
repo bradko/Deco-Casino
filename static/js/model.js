@@ -81,23 +81,46 @@ class Card {
 	}
 
 	get val() {
-		special = ['Jack','Queen','King','Ace']
+		let special = ['J', 'Q', 'K', 'A']
 
-		if (special.indexOf(this._val) != -1) {
+		if (special.indexOf(this._val) == -1) {
 			return this._val
 		}
 		else {
-			if (this._val == 'Jack') {
+			if (this._val == 'J') {
+				return 'Jack'
+			}
+			else if (this._val == 'Q') {
+				return 'Queen'
+			}
+			else if (this._val == 'K') {
+				return 'King'
+			}
+			else {
+				return 'Ace'
+			}
+		}
+
+	}
+
+	get valNum() {
+		let special = ['J', 'Q', 'K', 'A']
+
+		if (special.indexOf(this._val) == -1) {
+			return this._val
+		}
+		else {
+			if (this._val == 'J') {
 				return 11
 			}
-			else if (this._val == 'Queen') {
+			else if (this._val == 'Q') {
 				return 12
 			}
-			else if (this._val == 'King') {
+			else if (this._val == 'K') {
 				return 13
 			}
 			else {
-				return [1,14]
+				return [1,11,14]
 			}
 		}
 
