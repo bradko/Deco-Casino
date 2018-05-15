@@ -1,1 +1,22 @@
 {% extends "base.html" %}
+
+{% block content %}
+<button type="button" onclick="drawCard()"">Draw Card</button>
+<p id='cardValue'></p>
+<script src=static/js/model.js type=text/javascript></script>
+<script src=static/js/controller.js type=text/javascript></script>
+<script>
+	deckList = []
+	suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
+	vals = [2,3,4,5,6,7,8,9,'Jack','Queen','King','Ace']
+	for (let i = 0; i < suits.length; i++) {
+		for (let j = 0; j < vals.length; j++) {
+			card = new Card(suits[i], vals[j])
+			deckList.push(card)
+		}
+	}
+	deck = new Deck(deckList)
+	deck.shuffle()
+	console.log("IT WORKED")
+</script>
+{% endblock %}
