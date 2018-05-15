@@ -22,11 +22,11 @@
 
 	<div class="panel col-md-4 col-md-offset-4 centered" id="login">
 
-		<form method="GET" action="/" padding="10px" align="center">
-			<label for="cont">What game would you like to play?</label>
-				<select id="cont" name="cont">
-					<option>Blackjack</option>
-					<option>High-Low</option>
+		<form method="GET" action="/selectGame" padding="10px" align="center">
+			<label for="game">What game would you like to play?</label>
+				<select id="game" name="game">
+					<option value="blackjack">Blackjack</option>
+					<option value="highlow">High-Low</option>
 				</select><br>
 
 			<button type="submit">Submit</button>
