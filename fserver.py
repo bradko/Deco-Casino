@@ -73,11 +73,12 @@ def addToLogin():
 def selectGame():
 	args = request.args
 	game = str(args['game'])
+	session['currentGame'] = game
 
 	if game == 'highlow':
-		return render_template('highlow.html')
+		return render_template('highlow.html', username=session['username'], credits=session['numCredits'])
 	else:
-		return render_template('blackjack.html')
+		return render_template('blackjack.html', username=session['username'], credits=session['numCredits'])
 
 @app.route('/addCredits')
 def addCredits():
@@ -95,6 +96,15 @@ def addCredits():
 	s.commit()
 
 	return render_template('index.html', username=session['username'], credits=session['numCredits'])
+
+@app.route('/updateGame')
+def updateGame():	
+	game = session['currentGame']
+
+	if game == 'highlow':
+		return render_template('highlow.html', username=session['username'], credits=session['numCredits'])
+	else:
+		return render_template('blackjack.html', username=session['username'], credits=session['numCredits'])
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)

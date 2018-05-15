@@ -1,10 +1,26 @@
 {% extends "base.html" %}
 
+{% block navbar %}
+<nav class="navbar navbar-default" role="navigation">
+  <h1 class="navbar-brand">Deco Casino</h1>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-left">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">User: {{username}}</a></li>
+        <li><a href="#" id="credits">{{credits}} Credits</a></li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
 {% block content %}
 
 <div class="container" padding="10px">
 
-	<div class="panel col-md-4 col-md-offset-4 centered" id="login" align="center">
+	<div class="panel col-md-4 col-md-offset-4 col-centered" id="login" align="center">
 
 		<p id='cardValue'></p>
 		<img id="cardImg" alt="" src="">
@@ -15,6 +31,28 @@
 		<p id="results"></p>
 		<p>Streak: <span id='streak'>0</span></p>
 
+		<label for="bet">Bet</label>
+		<input type="number" id="bet" name="bet" min="0" max={{credits}}></input>
+		<button id="placeButton" onclick="placeBet()">Place</button>
+
+		<form method="GET" type="hidden" action="/updateGame" padding="10px" align="center">
+			<input id="game" name="game" type="text" value="highlow">
+			<input id="totalscore" name="totalscore" type="number">
+			<input id="numWins" name="numWins" type="number">
+			<input id="bestStreak" name="bestStreak" type="number">
+			<input id="betWon" name="betWon" type="bool" value="false">
+			<input id="betLost" name="betLost" type="bool" value="false">
+
+			<button type="submit">Submit</button>
+		</form>
+
+		<p>Number Correct on This Bet: <span id='numCorrect'>0</span></p>
+
+	</div>
+
+	<div class="container col-md-4" id="instructions">
+		<h3>Instructions</h3>
+		<p>Place bet and try to predict whether the next card will be higher or lower. Get 5 correct in a row to double your bet.</p>
 	</div>
 
 </div>
