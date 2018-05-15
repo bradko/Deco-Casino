@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 
+{% block navbar %}
+<nav class="navbar navbar-default" role="navigation">
+  <h1 class="navbar-brand">Deco Casino</h1>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-left">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">User: {{username}}</a></li>
+        <li><a href="#" id="credits">{{credits}} Credits</a></li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
 {% block content %}
 <button type="button" onclick="drawCard()"">Draw Card</button>
 <p id='cardValue'></p>

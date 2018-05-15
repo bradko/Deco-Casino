@@ -9,7 +9,7 @@
         <li><a href="/logout">Logout</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">{{username}}</a></li>
+        <li><a href="#">User: {{username}}</a></li>
         <li><a href="#" id="credits">{{credits}} Credits</a></li>
     </ul>
   </div>
@@ -31,7 +31,6 @@
 
 			<button type="submit">Submit</button>
 		</form>
-		<button type="button" onclick="drawCard()">Draw Card</button><br>
 
 		<form method="GET" action="/addCredits" padding="10px" align="center">
 			<button type="submit">Add More Credits</button>

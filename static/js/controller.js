@@ -24,8 +24,11 @@ function predictHigh(card) {
 	if (nextVal > currVal) {
 		document.getElementById('results').innerHTML = "CORRECT!"
 		streak = parseInt(document.getElementById('streak').innerHTML)
+		numCorrect = parseInt(document.getElementById('numCorrect').innerHTML)
 		streak += 1
+		numCorrect += 1
 		document.getElementById('streak').innerHTML = streak
+		document.getElementById('numCorrect').innerHTML = numCorrect
 	}
 	else if (nextVal == currVal) {
 		document.getElementById('results').innerHTML = "SAME: STREAK NOT LOST"
@@ -33,6 +36,7 @@ function predictHigh(card) {
 	else {
 		document.getElementById('results').innerHTML = 'INCORRECT'
 		document.getElementById('streak').innerHTML = '0'
+		document.getElementById('numCorrect').innerHTML = '0'
 	}
 
 	postCard(nextCard)
@@ -74,4 +78,9 @@ function predictLow(card) {
 	postCard(nextCard)
 
 	return nextCard
+}
+
+function placeBet() {
+	placeButton = document.getElementById('placeButton')
+	placeButton.disabled = true
 }
