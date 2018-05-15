@@ -74,20 +74,10 @@ def selectGame():
 	args = request.args
 	game = str(args['game'])
 
-	deckList = []
-	suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
-	vals = [2,3,4,5,6,7,8,9,'Jack','Queen','King','Ace']
-	for i in range(len(suits))
-		for j in range(len(vals))
-			card = new Card(suits[i], vals[j])
-			deckList.push(card)
-	deck = new Deck(deckList)
-	deck.shuffle()
-
 	if game == 'highlow':
-		return render_template('highlow.html', deck=deck)
+		return render_template('highlow.html')
 	else:
-		return render_template('blackjack.html', deck=deck)
+		return render_template('blackjack.html')
 
 @app.route('/addCredits')
 def addCredits():
