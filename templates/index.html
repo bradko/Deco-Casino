@@ -10,7 +10,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li><a href="#">{{username}}</a></li>
-        <li><a href="#">{{credits}} Credits</a></li>
+        <li><a href="#" id="credits">{{credits}} Credits</a></li>
     </ul>
   </div>
 </nav>
@@ -31,7 +31,11 @@
 
 			<button type="submit">Submit</button>
 		</form>
-		<button type="button" onclick="drawCard()"">Draw Card</button>
+		<button type="button" onclick="drawCard()">Draw Card</button><br>
+
+		<form method="GET" action="/addCredits" padding="10px" align="center">
+			<button type="submit">Add More Credits</button>
+		</form>
 		<p id='cardValue'></p>
 
 	</div>
@@ -53,6 +57,5 @@
 	deck.shuffle()
 	console.log("IT WORKED")
 </script>
-
 
 {% endblock %}

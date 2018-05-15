@@ -13,7 +13,7 @@ def index():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-		return render_template('index.html', username=session['username'], credits=session['credits'])
+		return render_template('index.html', username=session['username'], credits=session['numCredits'])
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
@@ -26,13 +26,10 @@ def do_admin_login():
 	query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]) )
 	result = query.first()
 	if result:
-		#query = s.query(User, Credits).outerjoin(Credits).\
-		#	all() 
-		query = s.query(Base.metadata.tables['credits']).filter(User.username.in_([POST_USERNAME]))
-		result = query.first()
-		print(result)
-		print(query)
-		session['credits'] = result[1]
+		query = s.query(User).join(Credits).filter(User.username == POST_USERNAME).all()
+		for result in query:
+			credits = result.credits.credits
+		session['numCredits'] = credits
 		session['username'] = POST_USERNAME
 		session['logged_in'] = True
 	else:
@@ -65,7 +62,7 @@ def addToLogin():
 		user = User(username, password)
 		session.add(user)
 
-		credits = Credits(username, 1000)
+		credits = Credits(username, 1000, user)
 		session.add(credits)
 
 		session.commit()
@@ -76,10 +73,38 @@ def addToLogin():
 def selectGame():
 	args = request.args
 	game = str(args['game'])
+
+	deckList = []
+	suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
+	vals = [2,3,4,5,6,7,8,9,'Jack','Queen','King','Ace']
+	for i in range(len(suits))
+		for j in range(len(vals))
+			card = new Card(suits[i], vals[j])
+			deckList.push(card)
+	deck = new Deck(deckList)
+	deck.shuffle()
+
 	if game == 'highlow':
-		return render_template('highlow.html')
+		return render_template('highlow.html', deck=deck)
 	else:
-		return render_template('blackjack.html')
+		return render_template('blackjack.html', deck=deck)
+
+@app.route('/addCredits')
+def addCredits():
+	Session = sessionmaker(bind=engine)
+	s = Session()
+
+	print("ADDDING")
+	u = session['username']
+	print(u)
+	query = s.query(User).join(Credits).filter(User.username == u).all()
+	for result in query:
+		result.credits.credits += 1000
+
+	session['numCredits'] = result.credits.credits
+	s.commit()
+
+	return render_template('index.html', username=session['username'], credits=session['numCredits'])
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)
