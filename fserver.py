@@ -26,9 +26,12 @@ def do_admin_login():
 	query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]) )
 	result = query.first()
 	if result:
+		#query = s.query(User, Credits).outerjoin(Credits).\
+		#	all() 
 		query = s.query(Base.metadata.tables['credits']).filter(User.username.in_([POST_USERNAME]))
 		result = query.first()
 		print(result)
+		print(query)
 		session['credits'] = result[1]
 		session['username'] = POST_USERNAME
 		session['logged_in'] = True
@@ -68,6 +71,15 @@ def addToLogin():
 		session.commit()
 
 		return index()
+
+@app.route('/selectGame')
+def selectGame():
+	args = request.args
+	game = str(args['game'])
+	if game == 'highlow':
+		return render_template('highlow.html')
+	else:
+		return render_template('blackjack.html')
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)
