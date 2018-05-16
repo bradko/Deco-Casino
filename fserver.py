@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
 import os
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 engine = create_engine('sqlite:///static/casino.db', echo=True)
 
 app = Flask(__name__)

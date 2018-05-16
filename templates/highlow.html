@@ -31,19 +31,20 @@
 		<p id="results"></p>
 		<p>Streak: <span id='streak'>{{currentStreak}}</span></p>
 
+
 		<label for="bet">Bet</label>
-		<input type="number" id="bet" name="bet" min="0" max={{credits}}>
-		<button id="placeButton" onclick="placeBet()">Place</button>
+		<input type="number" oninput="checkBet(this)" id="bet" name="bet" min="0" max="{{credits}}"/>
+		<button type="submit" id="placeButton" onclick="placeBet()">Place</button>
 
 		<form method="GET" style="display: none" type="hidden" action="/updateGame" padding="10px" align="center">
-			<input id="game" name="game" type="text" value="highlow">
-			<input id="totalscore" name="totalScore" type="number" value={{totalScore}}>
-			<input id="numWins" name="numWins" type="number" value={{numWins}}>
-			<input id="bestStreak" name="bestStreak" type="number" value={{bestStreak}}>
-			<input id="currentStreak" name="currentStreak" type="number" value={{currentStreak}}>
-			<input id="betWon" name="betWon" type="bool" value="false">
-			<input id="betLost" name="betLost" type="bool" value="false">
-			<input id="betAmount" name="betAmount" type="number">
+			<input id="game" name="game" type="text" value="highlow"/>
+			<input id="totalscore" name="totalScore" type="number" value="{{totalScore}}"/>
+			<input id="numWins" name="numWins" type="number" value="{{numWins}}"/>
+			<input id="bestStreak" name="bestStreak" type="number" value="{{bestStreak}}"/>
+			<input id="currentStreak" name="currentStreak" type="number" value="{{currentStreak}}"/>
+			<input id="betWon" name="betWon" type="bool" value="false"/>
+			<input id="betLost" name="betLost" type="bool" value="false"/>
+			<input id="betAmount" name="betAmount" type="number"/>
 			<button id="hiddenSubmit" type="submit">Submit</button>
 		</form>
 
