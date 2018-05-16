@@ -46,15 +46,17 @@ class Game(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String)
+    game = Column(String)
     totalScore = Column(Integer)
     numWins = Column(Integer)
     bestStreak = Column(Integer)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("User")
 
-    def __init__(self, username, totalScore, numWins, bestStreak, user):
+    def __init__(self, username, game, totalScore, numWins, bestStreak, user):
         """"""
         self.username = username
+        self.game = game
         self.totalScore = totalScore
         self.numWins = numWins
         self.bestStreak = bestStreak

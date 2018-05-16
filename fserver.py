@@ -71,23 +71,39 @@ def addToLogin():
 
 @app.route('/selectGame')
 def selectGame():
+	Session = sessionmaker(bind=engine)
+	s = Session()
+
 	args = request.args
 	game = str(args['game'])
 	session['currentGame'] = game
 
+	u = session['username']
+	user = s.query(User).filter(User.username == u).all()
+	numGame = s.query(User).join(Game).filter(User.username == u).filter(Game.game == game).count()
+
+	if numGame == 0:
+		g = Game(u, game, 0, 0, 0, user[0])
+		s.add(g)
+		s.commit()
+	
+	gameTable = s.query(User).join(Game).filter(User.username == u).filter(Game.game == game).all()
+
+	totalScore = gameTable[0].game[0].totalScore
+	numWins = gameTable[0].game[0].numWins
+	bestStreak = gameTable[0].game[0].bestStreak
+
 	if game == 'highlow':
-		return render_template('highlow.html', username=session['username'], credits=session['numCredits'])
+		return render_template('highlow.html', username=session['username'], credits=session['numCredits'], totalScore=totalScore, numWins=numWins, bestStreak=bestStreak, currentStreak=0)
 	else:
-		return render_template('blackjack.html', username=session['username'], credits=session['numCredits'])
+		return render_template('blackjack.html', username=session['username'], credits=session['numCredits'], totalScore=totalScore, numWins=numWins, bestStreak=bestStreak, currentStreak=0)
 
 @app.route('/addCredits')
 def addCredits():
 	Session = sessionmaker(bind=engine)
 	s = Session()
 
-	print("ADDDING")
 	u = session['username']
-	print(u)
 	query = s.query(User).join(Credits).filter(User.username == u).all()
 	for result in query:
 		result.credits.credits += 1000
@@ -99,12 +115,51 @@ def addCredits():
 
 @app.route('/updateGame')
 def updateGame():	
+	Session = sessionmaker(bind=engine)
+	s = Session()
+
 	game = session['currentGame']
+	args = request.args
+	print(args)
+
+	bestStreak = int(args.get('bestStreak'))
+	betWon = args.get('betWon')
+	betAmount = int(args.get('betAmount'))
+	currentStreak = int(args.get('currentStreak'))
+
+	u = session['username']
+	print(bestStreak)
+	print(betWon)
+	print(betAmount)
+
+	gameTable = s.query(User).join(Game).filter(User.username == u).filter(Game.game == game).all()
+
+	creds = s.query(User).join(Credits).filter(User.username == u).all()
+
+	if betWon == "true":
+		gameTable[0].game[0].totalScore += betAmount
+		gameTable[0].game[0].numWins += 1
+		creds[0].credits.credits += betAmount
+	else:
+		gameTable[0].game[0].totalScore -= betAmount
+		creds[0].credits.credits -= betAmount
+	gameTable[0].game[0].bestStreak = bestStreak
+
+	session['numCredits'] = creds[0].credits.credits
+	totalScore = gameTable[0].game[0].totalScore
+	numWins = gameTable[0].game[0].numWins
+	bestStreak = gameTable[0].game[0].bestStreak
+
+	s.commit()
 
 	if game == 'highlow':
-		return render_template('highlow.html', username=session['username'], credits=session['numCredits'])
+		return render_template('highlow.html', username=session['username'], credits=session['numCredits'], totalScore=totalScore, numWins=numWins, bestStreak=bestStreak, currentStreak=currentStreak)
 	else:
-		return render_template('blackjack.html', username=session['username'], credits=session['numCredits'])
+		return render_template('blackjack.html', username=session['username'], credits=session['numCredits'], totalScore=totalScore, numWins=numWins, bestStreak=bestStreak, currentStreak=currentStreak)
+
+@app.route('/map')
+def map():	
+	return render_template('map.html')
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)
