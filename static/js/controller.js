@@ -116,9 +116,9 @@ function predictLow(card) {
 
 function placeBet() {
 	placeButton = document.getElementById('placeButton')
-	placeButton.disabled = true
-	
 	bet = document.getElementById('bet')
+	
+	placeButton.disabled = true
 	bet.disabled = true
 
 	betAmount = document.getElementById('betAmount')
@@ -128,4 +128,18 @@ function placeBet() {
 	lower = document.getElementById('lower')
 	higher.style = "display: center"
 	lower.style = "display: center"
+}
+
+function checkBet(object) {
+	value = parseInt(object.value)
+	max = parseInt(object.max)
+	min = parseInt(object.min)
+
+	if (value > max) {
+		object.value = max
+	}
+
+	if (value < min) {
+		object.value = min
+	}
 }
