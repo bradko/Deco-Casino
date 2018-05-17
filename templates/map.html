@@ -65,11 +65,11 @@
               return;
             }
 
-            let request = {
-			    location: place.geometry.location,
-			    rankby: ['distance'],
-			    type: ['casino']
-			  };
+          let request = {
+  			    location: place.geometry.location,
+  			    rankby: ['distance'],
+  			    type: ['casino']
+  			  };
             service.textSearch(
             	request,
             	function(results, status) {

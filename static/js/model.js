@@ -1,33 +1,5 @@
 "use strict"
 
-class Subject {
-	constructor() {
-		this.handlers = []
-	}
-
-	subscribe(fn) {
-		this.handlers.push(fn)
-	}
-
-	unsubscribe(fn) {
-		this.handlers = this.handlers.filter(
-			function(item) {
-				if (item !== fn) {
-					return item;
-				}
-			}
-		);
-	}
-
-	publish(msg, someobj) {
-		var scope = someobj || window;
-		for (let fn of this.handlers) {
-			fn(scope, msg)
-		}
-	}
-
-}
-
 class Deck {
 	constructor(cardList) {
 		this._cardList = cardList
@@ -111,13 +83,13 @@ class Card {
 		}
 		else {
 			if (this._val == 'J') {
-				return 11
+				return [10, 11]
 			}
 			else if (this._val == 'Q') {
-				return 12
+				return [10, 12]
 			}
 			else if (this._val == 'K') {
-				return 13
+				return [10, 13]
 			}
 			else {
 				return [1,11,14]
