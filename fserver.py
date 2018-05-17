@@ -1,24 +1,37 @@
 from flask import Flask, request, render_template, session, redirect, flash, abort
 from flask_bootstrap import Bootstrap
+from flask_wtf import Form
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
 import os
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from wtforms.validators import DataRequired
 engine = create_engine('sqlite:///static/casino.db', echo=True)
 
 app = Flask(__name__)
 Bootstrap(app)
 
+class AccountForm(Form):
+	username = TextField('Username:', validators=[validators.required()])
+	password = TextField('Password:', validators=[validators.required(), validators.Length(min=3, max=35)])
+	submit = SubmitField('Submit')
+
 @app.route('/')
 def index():
 	if not session.get('logged_in'):
-		return render_template('login.html')
+		form = AccountForm()
+		return render_template('login.html', form=form)
 	else:
 		return render_template('index.html', username=session['username'], credits=session['numCredits'])
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
  
+	# form = AccountForm()
+	# if form.validate_on_submit():
+	# 	POST_USERNAME = str(form.username.data)
+	# 	POST_PASSWORD = str(form.password.data)
+
 	POST_USERNAME = str(request.form['username'])
 	POST_PASSWORD = str(request.form['password'])
 
@@ -160,7 +173,7 @@ def updateGame():
 
 @app.route('/map')
 def map():	
-	return render_template('map.html')
+	return render_template('map.html', username=session['username'], credits=session['numCredits'])
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)
