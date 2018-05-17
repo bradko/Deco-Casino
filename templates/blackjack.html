@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block body %}
+
 {% block navbar %}
 <nav class="navbar navbar-default" role="navigation">
   <h1 class="navbar-brand">Deco Casino</h1>
@@ -57,11 +59,19 @@
 
 	<div class="panel col-md-4 col-md-offset-4 col-centered" id="login" align="center">
 
+		{% with messages = get_flashed_messages() %}
+	  		{% if messages %}
+	    		<ul class=flashes>
+	    		{% for message in messages %}
+	      			<li>{{ message }}</li>
+	    		{% endfor %}
+	    		</ul>
+	 		{% endif %}
+		{% endwith %}
+
 		<button id="hit" style="display: none">Hit</button>
 		<button id='stay' style="display: none">Stay</button>
 		<p id="results"></p>
-		<p>Streak: <span id='streak'>{{currentStreak}}</span></p>
-
 
 		<label for="bet">Bet</label>
 		<input type="number" oninput="checkBet(this)" id="bet" name="bet" min="0" max="{{credits}}"/>
@@ -75,14 +85,17 @@
 			<input id="currentStreak" name="currentStreak" type="number" value="{{currentStreak}}"/>
 			<input id="betWon" name="betWon" type="bool" value="false"/>
 			<input id="betLost" name="betLost" type="bool" value="false"/>
+			<input id="tie" name="tie" type="bool" value="false"/>
 			<input id="betAmount" name="betAmount" type="number"/>
 			<button id="hiddenSubmit" type="submit">Submit</button>
 		</form>
 
-		<p>Number Correct on This Bet: <span id='numCorrect'>0</span></p>
-		<p>All Time Credits Won: <span id='totalScoreDisplay'>{{totalScore}}</span></p>
-		<p>All Time Number of Bets Won: <span id='numWinsDisplay'>{{numWins}}</span></p>
-		<p>All Time Best Streak: <span id='bestStreakDisplay'>{{bestStreak}}</span></p>
+		<table class="table">
+			<tr><td>Streak: </td><td id='streak'>{{currentStreak}}</td></tr>
+			<tr><td>All Time Credits Won: </td><td id='totalScoreDisplay'>{{totalScore}}</td></tr>
+			<tr><td>All Time Number of Bets Won: <td id='numWinsDisplay'>{{numWins}}</td></tr>
+			<tr><td>All Time Best Streak: <td id='bestStreakDisplay'>{{bestStreak}}</td><</tr>
+		</table>
 
 	</div>
 
@@ -124,11 +137,13 @@
 			revealDealerCard(dealerHand[0])
 			// YOU LOSE
 			console.log('YOU LOSE')
+			bjLose()
 		}
 		else if (calcHand(playerHand) == 21) {
 			document.getElementById('playerScore').innerHTML = 'BLACKJACK'
 			// YOU WIN
 			console.log('YOU WIN')
+			bjWin()
 		}
 		else {
 			console.log('calc dealer hand')
@@ -157,13 +172,17 @@
 		if (status == 'win') {
 			// YOU WIN
 			console.log('YOU WIN')
+			bjWin()
 		}
 		else if (status == 'tie') {
+			clearHands()
 			console.log('TIE')
+			bjTie()
 		}
 		else {
 			console.log(status)
 			console.log('YOU LOSE')
+			bjLose()
 		}
 	})
 
@@ -174,6 +193,7 @@
 		if (bustP) {
 			// PLAYER LOSE: BUSTED
 			console.log('YOU LOSE! YOU BUSTED')
+			bjLose()
 		}
 	})
 	
@@ -195,4 +215,11 @@ function getCount(parent, getChildrensChildren){
     return relevantChildren;
 }
 </script>
+{% endblock %}
+
+
+<footer id="bjfooter" class="footer">
+	<p align="center">Created by Brad Kovacovich and Austin Uetz</p>
+</footer>
+
 {% endblock %}

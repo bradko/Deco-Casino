@@ -11,8 +11,34 @@ form {
 	margin-bottom: 10px;
 }
 
-.navbar-brand
-{
+.navbar {
+	background: linear-gradient(#610005, #841016);
+	color: white;
+	border-color: black;
+	font-weight: 700;
+}
+
+ul {
+	list-style-type: none;
+}
+
+.flashes > li {
+	text-align: center;
+	font-weight: bold;
+	padding-right: 10%;
+	margin: 0px;
+}
+
+h1 {
+	font-family: "Bebas Neue", "sans-serif"; 
+	font-weight: bold;
+}
+
+#stats {
+	font-weight: bold;
+}
+
+.navbar-brand {
     position: absolute;
     width: 100%;
     left: 0;
@@ -23,6 +49,28 @@ form {
 
 .navbar-toggle {
     z-index:3;
+}
+
+.active {
+	border: 2px solid white;
+}
+
+.navbar-default .navbar-nav > .active > a {
+    background-color: white;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+
+.navbar-default > .navbar-brand {
+    color: white;
+}
+
+#submit {
+	background: linear-gradient(#610005, #841016);
+	border-color: black;
 }
 
 #map {
@@ -108,6 +156,24 @@ html, body {
 
 #target {
     width: 345px;
+}
+
+#genfooter {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: .7rem;
+	color: #610005;
+	background-color: white;
+	font-weight: 500;
+}
+
+#bjfooter {
+	padding: .7rem;
+	color: #610005;
+	background-color: white;
+	font-weight: 500;
 }
 
 h1 {

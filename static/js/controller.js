@@ -172,6 +172,9 @@ function placeBet() {
 	placeButton = document.getElementById('placeButton')
 	bet = document.getElementById('bet')
 	
+	flash = document.getElementsByClassName('flashes')
+
+	flash.style = "display: none"
 	placeButton.disabled = true
 	bet.disabled = true
 
@@ -188,7 +191,9 @@ function placeBet() {
 function placeBetBj() {
 	placeButton = document.getElementById('placeButton')
 	bet = document.getElementById('bet')
-	
+	flash = document.getElementsByClassName('flashes')
+
+	flash.style = "display: none"
 	placeButton.disabled = true
 	bet.disabled = true
 
@@ -383,54 +388,47 @@ function processDealerHand(dealerHand, playerHand) {
 
 		return status
 	}
-
-
-
-	// 	deck, dealerHand = hitDealer(deck, dealerHand, dealerHand.length+1)
-	// 	document.getElementById('dealerScore').innerHTML = calcHand(dealerHand)
-
-		
-	// 	if (calcHand(dealerHand) > 21 && ace == 0) {
-	// 		// PLAYER WIN
-	// 		status = 'win'
-	// 		console.log('1')
-	// 		return status
-	// 	}
-		
-		
-		
-	// 	if (calcHand(dealerHand) < 17) {
-	// 		status = 'again'
-	// 		console.log('5')
-	// 		return status
-	// 	}
-	// }
-	// else if (calcHand(dealerHand) > 21) {
-	// 	document.getElementById('dealerScore').innerHTML = '2'
-	// }
-
-
-	// let dScore = calcHand(dealerHand)
-	// let pScore = calcHand(playerHand)
-	// if (dScore <= 21 && dScore < pScore) {
-	// 	// PLAYER WIN
-	// 	status = 'win'
-	// 	console.log('3', dScore, pScore)
-	// 	return status
-	// }
-	// else if (dScore <= 21 && dScore > pScore) {
-	// 	// PLAYER LOSE
-	// 	status = 'lose'
-	// 	console.log('6')
-	// 	return status
-	// }
-	// else if (dScore > 16 && dScore == pScore) {
-	// 	// TIE
-	// 	status = 'tie'
-	// 	console.log('4')
-	// 	return status
-	// }
-
 	return status
-	
+}
+
+function bjWin() {
+	betWon = document.getElementById("betWon")
+	betWon.value = true
+
+	streak = parseInt(document.getElementById('streak').innerHTML)
+	currentStreak = document.getElementById('currentStreak').value
+	bestStreak = document.getElementById('bestStreak').value
+	bestStreakDisplay = document.getElementById('bestStreakDisplay').innerHTML
+
+	streak += 1
+	document.getElementById('streak').innerHTML = streak
+
+	currentStreak += 1
+
+	if (bestStreak < streak) {
+		document.getElementById('bestStreak').value = streak
+		document.getElementById('bestStreakDisplay').innerHTML = streak
+	}
+
+	document.getElementById('hiddenSubmit').click()
+}
+
+function bjLose() {
+	betLost = document.getElementById("betLost")
+	betLost.value = true
+
+	streak = parseInt(document.getElementById('streak').innerHTML)
+	currentStreak = document.getElementById('currentStreak').value
+
+	streak = 0
+	currentStreak = 0
+	document.getElementById('streak').innerHTML = streak
+
+	document.getElementById('hiddenSubmit').click()
+}
+
+function bjTie() {
+	tie = document.getElementById("tie")
+	tie.value = true
+	document.getElementById('hiddenSubmit').click()
 }
