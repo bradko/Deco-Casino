@@ -266,9 +266,11 @@ function hitDealer(deck, dealerHand, cardNum) {
 function calcHand(handList) {
 	let special = ['Jack', 'Queen', 'King']
 	let score = 0
+	let ace = 0
 	for (let i = 0; i < handList.length; i++) {
 		let card = handList[i]
 		if (card.val == 'Ace') {
+			ace += 1
 			score += card.valNum[1]
 		}
 		else if (special.indexOf(card.val) != -1) {
@@ -277,6 +279,10 @@ function calcHand(handList) {
 		else {
 			score += card.valNum
 		}
+	}
+
+	if (ace == 2 && handList.length == 2) {
+		score = 12
 	}
 	return score
 }
