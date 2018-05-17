@@ -109,3 +109,7 @@ html, body {
 #target {
     width: 345px;
 }
+
+h1 {
+    text-align: center;
+}
