@@ -113,3 +113,38 @@ html, body {
 h1 {
     text-align: center;
 }
+
+#dealerHand {
+    width: 100%;
+    float: left;
+    margin: 15px 0 25px;
+}
+#playerHand {
+    width: 100%;
+}
+
+.columnDealer1, .columnDealer2 {
+    width: 50%;
+    float: left;
+}
+
+.columnDealer {
+    width: 13%;
+    float: left;
+}
+
+.columnPlayer {
+    width: 13%;
+    float: left;
+    height: 100%;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#box {
+    height: 565px;
+}
