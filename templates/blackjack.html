@@ -137,13 +137,14 @@
 			revealDealerCard(dealerHand[0])
 			// YOU LOSE
 			console.log('YOU LOSE')
-			bjLose()
+			setTimeout(bjLose(), 2000)
+			
 		}
 		else if (calcHand(playerHand) == 21) {
 			document.getElementById('playerScore').innerHTML = 'BLACKJACK'
 			// YOU WIN
 			console.log('YOU WIN')
-			bjWin()
+			setTimeout(bjWin(), 2000)
 		}
 		else {
 			console.log('calc dealer hand')
@@ -172,17 +173,17 @@
 		if (status == 'win') {
 			// YOU WIN
 			console.log('YOU WIN')
-			bjWin()
+			setTimeout(bjWin(), 2000)
 		}
 		else if (status == 'tie') {
 			clearHands()
 			console.log('TIE')
-			bjTie()
+			setTimeout(bjTie(), 2000)
 		}
 		else {
 			console.log(status)
 			console.log('YOU LOSE')
-			bjLose()
+			setTimeout(bjLose(), 2000)
 		}
 	})
 
@@ -193,7 +194,7 @@
 		if (bustP) {
 			// PLAYER LOSE: BUSTED
 			console.log('YOU LOSE! YOU BUSTED')
-			bjLose()
+			setTimeout(bjLose(), 2000)
 		}
 	})
 	
