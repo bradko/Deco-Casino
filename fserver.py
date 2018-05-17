@@ -4,7 +4,7 @@ from flask_wtf import Form
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
 import os
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from wtforms import TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, SelectField
 from wtforms.validators import DataRequired
 engine = create_engine('sqlite:///static/casino.db', echo=True)
 
@@ -13,27 +13,37 @@ Bootstrap(app)
 
 class AccountForm(Form):
 	username = TextField('Username:', validators=[validators.required()])
-	password = TextField('Password:', validators=[validators.required(), validators.Length(min=3, max=35)])
+	password = PasswordField('Password:', validators=[validators.required(), validators.Length(min=3, max=35)])
 	submit = SubmitField('Submit')
+
+class CreateAccountForm(Form):
+	submit = SubmitField('Create Account')
+
+class SelectGameForm(Form):
+	game = SelectField('Select Game', choices=[("blackjack","Blackjack"), ("highlow", "High-Low")])
+	submit = SubmitField('Play')
+
+class AddCreditsForm(Form):
+	submit = SubmitField('Add Credits')
 
 @app.route('/')
 def index():
 	if not session.get('logged_in'):
 		form = AccountForm()
-		return render_template('login.html', form=form)
+		form2 = CreateAccountForm()
+		return render_template('login.html', form=form, form2=form2)
 	else:
-		return render_template('index.html', username=session['username'], credits=session['numCredits'])
+		form = SelectGameForm()
+		form2 = AddCreditsForm()
+		return render_template('index.html', username=session['username'], credits=session['numCredits'], form=form, form2=form2)
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
  
-	# form = AccountForm()
-	# if form.validate_on_submit():
-	# 	POST_USERNAME = str(form.username.data)
-	# 	POST_PASSWORD = str(form.password.data)
-
-	POST_USERNAME = str(request.form['username'])
-	POST_PASSWORD = str(request.form['password'])
+	form = AccountForm()
+	if form.validate_on_submit():
+		POST_USERNAME = str(form.username.data)
+		POST_PASSWORD = str(form.password.data)
 
 	Session = sessionmaker(bind=engine)
 	s = Session()
@@ -57,14 +67,18 @@ def logout():
 
 @app.route('/createAccount')
 def createAccount():
-	return render_template('createAccount.html')
+	form = AccountForm()
+	return render_template('createAccount.html', form=form)
 
-@app.route('/addToUsers')
+@app.route('/addToUsers', methods=['POST'])
 def addToLogin():	
 
-	args = request.args
-	username = args.get('username')
-	password = args.get('password') 
+	form = AccountForm()
+	if form.validate_on_submit():
+		username = str(form.username.data)
+		password = str(form.password.data)
+	else:
+		return render_template('createAccount.html', form=form)
 
 	Session = sessionmaker(bind=engine)
 	session = Session()
@@ -83,14 +97,16 @@ def addToLogin():
 
 		return index()
 
-@app.route('/selectGame')
+@app.route('/selectGame', methods=['POST'])
 def selectGame():
+
+	form = SelectGameForm()
+
+	game = str(form.game.data)
+	session['currentGame'] = game
+
 	Session = sessionmaker(bind=engine)
 	s = Session()
-
-	args = request.args
-	game = str(args['game'])
-	session['currentGame'] = game
 
 	u = session['username']
 	user = s.query(User).filter(User.username == u).all()
@@ -125,7 +141,10 @@ def addCredits():
 	session['numCredits'] = result.credits.credits
 	s.commit()
 
-	return render_template('index.html', username=session['username'], credits=session['numCredits'])
+	form = SelectGameForm()
+	form2 = AddCreditsForm()
+
+	return render_template('index.html', username=session['username'], credits=session['numCredits'], form=form, form2=form2)
 
 @app.route('/updateGame')
 def updateGame():	
@@ -154,9 +173,11 @@ def updateGame():
 		gameTable[0].game[0].totalScore += betAmount
 		gameTable[0].game[0].numWins += 1
 		creds[0].credits.credits += betAmount
+		flash("You Won!")
 	else:
 		gameTable[0].game[0].totalScore -= betAmount
 		creds[0].credits.credits -= betAmount
+		flash("You Lost!")
 	gameTable[0].game[0].bestStreak = bestStreak
 
 	session['numCredits'] = creds[0].credits.credits
