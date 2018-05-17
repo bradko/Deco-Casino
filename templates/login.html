@@ -4,34 +4,30 @@
 
 <div class="container" padding="10px">
 
+	<h1 align="center">Welcome to the Deco Casino!</h1><br>
+
 	<div class="panel col-md-4 col-md-offset-4 centered" id="login">
 
-	{% if session['logged_in'] %}
-	<p>You're logged in already!</p>
-	{% else %}
+		{% if session['logged_in'] %}
+		<p>You're logged in already!</p>
+		{% else %}
 
-	<form action="/login" method="POST" align="center">
-	  <input type="username" name="username" placeholder="Username"><br>
-	  <input type="password" name="password" placeholder="Password"><br>
-	  <input type="submit" value="Log in"><br><br>
-	</form>
+		{{ wtf.quick_form(form, action='/login', form_type='horizontal', horizontal_columns=('sm',4,4), button_map={'submit': 'primary'}) }}<br>
 
-	{% with messages = get_flashed_messages() %}
-  		{% if messages %}
-    		<ul class=flashes>
-    		{% for message in messages %}
-      			<li>{{ message }}</li>
-    		{% endfor %}
-    		</ul>
- 		{% endif %}
-	{% endwith %}
+		{% with messages = get_flashed_messages() %}
+	  		{% if messages %}
+	    		<ul class=flashes>
+	    		{% for message in messages %}
+	      			<li>{{ message }}</li>
+	    		{% endfor %}
+	    		</ul>
+	 		{% endif %}
+		{% endwith %}
 
-	<form action="/createAccount" align="center">
-		<h3>Don't Have an Account?</h3>
-	  	<input type="submit" value="Create Account">
-	</form>
+		<h3 align="center">Don't Have an Account?</h3>
+		{{ wtf.quick_form(form2, method="get", action='/createAccount', form_type='horizontal', horizontal_columns=('sm',4,4), button_map={'submit': 'primary'}) }}
 
-	{% endif %}
+		{% endif %}
 
 	</div>
 

@@ -10,8 +10,8 @@
         <li><a href="/logout">Logout</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">User: {{username}}</a></li>
-        <li><a href="#" id="credits">{{credits}} Credits</a></li>
+        <li class="disabled"><a href="#">User: {{username}}</a></li>
+        <li class="disabled"><a href="#" id="credits">{{credits}} Credits</a></li>
     </ul>
   </div>
 </nav>
@@ -30,12 +30,20 @@
 		<button id="higher" style="display: none">Higher</button>
 		<button id='lower' style="display: none">Lower</button>
 		<p id="results"></p>
-		<p>Streak: <span id='streak'>{{currentStreak}}</span></p>
-
+		
+		{% with messages = get_flashed_messages() %}
+	  		{% if messages %}
+	    		<ul class=flashes>
+	    		{% for message in messages %}
+	      			<li>{{ message }}</li>
+	    		{% endfor %}
+	    		</ul>
+	 		{% endif %}
+		{% endwith %}
 
 		<label for="bet">Bet</label>
 		<input type="number" oninput="checkBet(this)" id="bet" name="bet" min="0" max="{{credits}}"/>
-		<button type="submit" id="placeButton" onclick="placeBet()">Place</button>
+		<button type="submit" id="placeButton" onclick="placeBet()">Place</button><br>
 
 		<form method="GET" style="display: none" type="hidden" action="/updateGame" padding="10px" align="center">
 			<input id="game" name="game" type="text" value="highlow"/>
@@ -49,15 +57,19 @@
 			<button id="hiddenSubmit" type="submit">Submit</button>
 		</form>
 
-		<p>Number Correct on This Bet: <span id='numCorrect'>0</span></p>
-		<p>All Time Credits Won: <span id='totalScoreDisplay'>{{totalScore}}</span></p>
-		<p>All Time Number of Bets Won: <span id='numWinsDisplay'>{{numWins}}</span></p>
-		<p>All Time Best Streak: <span id='bestStreakDisplay'>{{bestStreak}}</span></p>
+		<br>
+		<table class="table">
+			<tr><td id="stats">Current Streak: <td id='streak' >{{currentStreak}}</span></p></tr>
+			<tr><td id="stats">Number Correct on This Bet: <td id='numCorrect'>0</span></p></tr>
+			<tr><td id="stats">All Time Credits Won: <td id='totalScoreDisplay'>{{totalScore}}</span></p></tr>
+			<tr><td id="stats">All Time Number of Bets Won: <td id='numWinsDisplay'>{{numWins}}</span></p></tr>
+			<tr><td id="stats">All Time Best Streak: <td id='bestStreakDisplay'>{{bestStreak}}</span></p></tr>
+		</table>
 
 	</div>
 
-	<div class="container col-md-4" id="instructions">
-		<h3>Instructions</h3>
+	<div class="container col-md-4" id="instructions" margin="10px">
+		<h3 align="center">Instructions</h3>
 		<p>Place bet and try to predict whether the next card will be higher or lower. Get 5 correct in a row to double your bet.</p>
 	</div>
 
